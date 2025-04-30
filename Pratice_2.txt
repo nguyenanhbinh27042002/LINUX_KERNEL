@@ -1,0 +1,111 @@
+Câu hỏi tư luận
+Bài 1: 
+* Sự khác biệt của Monolithic Kernel và Microkernel 
++ Monolithic Kernel : 
+	A monolithic kernel is an operating system architecture where the entire system runs in kernel mode. 
+	In this design, the kernel consists of a single, large executable that includes various services such as memory management, device 	drivers, file system management, and process management, among others
++ Microkernel :
+	A microkernel architecture has only core functionality like process and memory management in kernel mode, while other services 	like device drivers, file systems, and networking are separate user-mode processes. 
+	
+* So sánh ưu nhược điểm của hai mô hình này về hiệu suất, bảo trì, bảo mật.
+1. Monolithic Kernel
+1.1. Advantage:
+	- all these services can directly interact with each other due to allow for quicker system call execution.
+	- this is simpler to understand and implement. They're easier to maintain and debug due to fewer components and interactions. 
+1.2. Disadvantage
+	- Monolithic kernels offer high performance due to the absence of IPC overhead.
+	- The security can compromised by a bug or vulnerability in any service when it run all the service in the kernel mode.
+	- Not stable than microkernel as a failure in one of service can crash the entire system
+	- Difficulty update or replace individual services without rebuilding the entire the kernel mode.
+2. Microkernel
+2.1. Advantage
+	- They provide better fault tolerance since components run in isolation, and the kernel is smaller and less complex
+	- Microkernels typically have higher IPC overhead, which can negatively impact performance.
+	- Easy to extend Micro-Kernel
+	- Easy to port Micro-Kernel
+Micro-Kernel is less prone to errors and bugs.
+2.2. Disadvantage
+	- The execution of Micro-Kernel is slower
+	- Multi kernel, Multi-modular communication may hamper the performance as compared to monolith architecture.
+* Giải thích tại sao Linux sử dụng Monolithic Kernel nhưng vẫn có tính linh hoạt cao. 
+ 	It is simple to design and has a very high performance.
+
+Bài 2:
+* Giải thích mô hình "Everything as a File".
+1.1. Định nghĩa Everything as a File:
+	- In Linux/Unix operating system everything is a file even directories are files, files are files, and devices like mouse, 	keyboard,printer, etc are also files.
+1.2. Lợi ích của Everything as a File:
+	- Unified interface : Users interact with devices, processes, and files in the same way.
+	- Flexibility : Simple commands like cat, echo, and ls work across system component.
+	- Security and Permissions : Managed via UNIX file permissions (chmod, chown).
+* Nêu các đối tượng trong Linux hoạt động như file /dev, /proc, socket, process descriptor. 
+	- /bin – Essential User Binaries
+	- /boot – Static Boot Files
+	- /cdrom – Historical Mount Point for CD-ROMs
+	- /dev – Device Files
+	- /etc – Configuration Files
+	- /home – Home Folders
+	- /lib – Essential Shared Libraries
+	- /lost+found – Recovered Files
+	- /media – Removable Media
+	- /mnt – Temporary Mount Points
+	- /opt – Optional Packages
+	- /proc – Kernel and Process Files
+	- /root – Root Home Directory
+	- /run – Application State Files
+	- /sbin – System Administration Binaries
+	- /snap – Storage for Snap Packages
+	- /srv – Service Data
+	- /tmp – Temporary Files
+	- /usr – User Binaries & Read-Only Data
+	- /var – Variable Data Files
+* Chạy lệnh kiểm tra và phân tích đầu ra để chứng minh rằng Linux áp dụng mô hình này (link ytb)
+Dùng các lệnh ls -l /dev, cat /proc/cpuinfo, echo "Test" > /dev/null để kiểm tra
+Bài 3: 
+* Giải thích Preemptive Multitasking là gì.
+1.1. Phân biệt Preemptive Multitasking và Cooperative Multitasking.
++ Preemptive Multitasking :
+	- Preemptive multitasking is a task used by the OS to decide for how long a task should be executed before allowing another task 	to use the OS. 
+	- It interrupts applications and gives control to other processes outside the application’s control.
+	- The operating system can initiate context switch from a running process to another process.
+	- A malicious program initiates an infinite loop, it only hurts itself without affecting other programs or threads.
+	- Preemptive multitasking forces applications to share the CPU whether they want to or not.
++ Cooperative Multitasking : 
+	- Cooperative multitasking is a type of computer multitasking in which the operating system never initiates a context switch from 	a running process to another process.
+	- In cooperative multitasking, process scheduler never interrupts a process unexpectedly.
+	- The operating system does not initiate a context switch from a running process to another process.
+	- A malicious program can bring the entire system to a halt by busy waiting or running an infinite loop and not giving up control.
+	- In cooperative multitasking, all programs must cooperate for it to work. If one program does not cooperate, it can hog the CPU.
+* Mô tả vai trò của Linux Scheduler trong việc quản lý tiến trình.
+1.2. Mô tả thuật toán Completely Fair Scheduler (CFS) và các yếu tố quyết định scheduling.
+	- The Ideal Fair Scheduling (IFS) of N processes. If there are N processes in the ready queue then each process receives (100/N)% 	of CPU time according to IFS
+	- CFS is similar as ideal-based scheduling instead it priorities each process according to their virtual runnable time
+* Thực hành kiểm chứng:
+1.3. Dùng ps -eo pid,pri,ni,cmd kiểm tra mức ưu tiên của tiến trình
+
+
+Question the kthread_create and pthread_create : ?
+what the different kthread_create vs pthread_create ?
+1.kthread_create: Kernel space 
+- Used in		Kernel modules and device drivers
+- Thread Type		Kernel thread (kthread_t)
+- Scheduling		Managed by the Linux kernel scheduler
+- System Resources	Runs with full kernel privileges
+- Creation Function	struct task_struct *kthread_create(int (*threadfn)(void 			*data), void *data, const char namefmt[], ...)
+- Example usage		Creating background kernel tasks, managing drivers, handling 			hardware events
+- Synchronization	Uses spinlocks, mutexes, or wait queues	
+- Termination		kthread_stop(thread)	
+- Performance impact 	Can affect kernel stability if not handled properly	
+
+
+
+2.pthread_create: User space
+- Used in 		User applications
+- Thread Type 		POSIX thread (pthread_t)
+- Scheduling		Managed by user-space libraries and kernel
+- System Resources	Runs in user mode with restricted access
+- Creation Function 	int pthread_create(pthread_t *thread, const pthread_attr_t 			*attr, void *(*start_routine) (void *), void *arg);
+ - Example usage	Running parallel tasks in user applications (e.g., multi-			threaded programs)
+- Synchronization	uses pthread_mutex_t, pthread_cond_t, etc.
+- Termination		pthread_join(thread, NULL) or pthread_detach(thread)
+- Performance impact	Only affects user-space applications
