@@ -1,2 +1,2 @@
 # LINUX_KERNEL
-Study Monothithic Kernel
+Study Kernel Linux Project
