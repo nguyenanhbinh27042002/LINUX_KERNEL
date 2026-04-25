@@ -1,10 +1,7 @@
-#include "stdio.h"
-#include "stdbool.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-#define N_MAX 10000
-unsigned int arr[N_MAX] = {0};
-int *twosum(int *nums, int numsSize, int target, int *returnsSize)
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) 
 {
     for(int i=0;i<numsSize;i++)
     {
@@ -12,42 +9,26 @@ int *twosum(int *nums, int numsSize, int target, int *returnsSize)
         {
             if(nums[j] == target - nums[i])
             {
-                int *result = (int*)malloc(2*sizeof(int));
+                int *result =(int*)malloc(sizeof(int)*2);
                 result[0] = i;
                 result[1] = j;
-                *returnsSize = 2;
-                return result;
+                *returnSize = 2;
+                return result; 
             }
         }
     }
-    *returnsSize = 0;
+    *returnSize = 0;
     return NULL;
 }
 
 int main(void)
 {
-    int numsSize;
-    int target;
-    int returnsSize;
-    printf("Enter the value of numbersSize\n");
-    scanf("%d",&numsSize);
-   
-    printf("Enter the target\n");
-    scanf("%d",&target);
-    printf("Enter the value of array\n");
-    for(int i =0;i<numsSize;i++)
+    int n;
+    printf("Enter the n:\n");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
     {
         scanf("%d",&arr[i]);
-    }
-    int *result = twosum(arr,numsSize,target,&returnsSize);
-    if(result != NULL) 
-    {
-        printf("Output : [%d %d]\n",result[0],result[1]);
-        free(result);
-    }
-    else
-    {
-        printf("Not value \n");
     }
     return 0;
 }
