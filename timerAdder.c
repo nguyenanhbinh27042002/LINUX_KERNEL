@@ -11,14 +11,11 @@ typedef struct TimerStr
 int main(void)
 {
 	Timer time;
-	for(int i=0;;i++)
+	do
 	{
-		do
-		{
-			printf("Enter the timer :\n");
-			scanf("%d %d %d",&time.hour,&time.min,&time.sec);
-		} while (time.hour < 0 || time.hour > 24 || time.min < 0 || time.min > 59 || time.sec < 0 || time.sec > 59); break ;
-	}
+		printf("Enter the timer :\n");
+		scanf("%d %d %d",&time.hour,&time.min,&time.sec);
+	} while (time.hour < 0 || time.hour > 23 || time.min < 0 || time.min > 59 || time.sec < 0 || time.sec > 59); 
 	int temp = time.hour*3600 + time.min*60 + time.sec;
 	temp = (temp+1)%(24*3600);
 	time.hour = temp/3600;
