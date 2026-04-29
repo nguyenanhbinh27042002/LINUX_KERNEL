@@ -1,53 +1,56 @@
 #include <stdio.h>
 
-typedef struct NameBooksStr
+
+typedef struct 
 {
     char name[20];
     char author[20];
     float price;
-}nameBooks;
+}NameBooks;
 
-int checkChar(char *a , char *b)
+int checkString(char *a, char *b)
 {
     while(*a && *b)
     {
-        if( *a != *b)
+        if(*a != *b)
         {
             return 1;
         }
         *a++;
         *b++;
     }
-    return (*a == '\0' && *b == '\0') ? 0 : 1;  
+    return (*a == '\0' && *b == '\0') ? 0 : 1;
 }
+
 int main(void)
-{
-    nameBooks nameBooks[200];
+{   
     int N;
-    printf("Enter the number the books\n");
+    NameBooks nameBooks[20];
+    printf("Enter the number books\n");
     scanf("%d",&N);
-    printf("Enter the name, poet and price\n");
+    printf("Enter the name, author and price\n");
     for(int i=0;i<N;i++)
     {
         scanf("%s %s %f",nameBooks[i].name,nameBooks[i].author,&nameBooks[i].price);
     }
-    char search[20];
-    printf("Enter the string name for the books\n");
+    char search[50];
+    int found = 0;
+    printf("Enter the information books need check\n");
     scanf("%s",search);
-    int flag = 0;
     for(int i=0;i<N;i++)
     {
-        if(checkChar(nameBooks[i].name,search) == 0) // check the name is mapped name enter
+        if(checkString(nameBooks[i].name,search) == 0)
         {
-            flag = 1;
-            printf("Found the name books\n");
-            printf("Name the books:%s, Author the books:%s, The price:%.2f\n",nameBooks[i].name, nameBooks[i].author,nameBooks[i].price);
+            found = 1;
+            printf("Found the books\n");
+            printf("Name the books:%s, Author the books:%s, Price the books:%f\n",nameBooks[i].name,nameBooks[i].author,nameBooks[i].price);
             break;
         }
     }
-    if(!flag)
+
+    if(!found)
     {
-        printf("Not found the books\n");
+        printf("Not found\n");
     }
     return 0;
 }
