@@ -3,28 +3,27 @@
 typedef struct topStudent
 {
     char id[20];
-    char namStudent[20];
+    char nameStudent[20];
     float gpa;
 }topStudent;
 
+
 int main(void)
 {
-    topStudent student[20];
-    float maxValue ; 
-
     int N;
-    printf("Enter the number value student\n");
+    printf("Enter the number of student\n");
     scanf("%d",&N);
-    printf("Enter the information student\n");
+    topStudent student[200];
+    printf("Enter the information student such as: id, name , gpa\n");
     for(int i=0;i<N;i++)
     {
-        scanf("%s %s %f",student[i].id,student[i].namStudent,&student[i].gpa);
+        scanf("%s %s %f",student[i].id,student[i].nameStudent,&student[i].gpa);
     }
-    maxValue = student[0].gpa;
+    float maxValue = student[0].gpa;
     for(int i=0;i<N;i++)
     {
         maxValue = (maxValue > student[i].gpa) ? maxValue : student[i].gpa;
     }
-    printf("The student is maxvalue :%f\n",maxValue);
+    printf("Max gpa top student :%.2f\n",maxValue);
     return 0;
 }
