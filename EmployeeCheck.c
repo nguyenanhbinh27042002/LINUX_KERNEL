@@ -9,21 +9,33 @@ typedef struct Employee
 
 int main(void)
 {
-    Employee Employee[100];
+    Employee emp[100];
+    Employee temp;
     int n;
     printf("Enter the number employee\n");
     scanf("%d",&n);
     printf("Enter the information employee: id, name , salary\n");
     for(int i=0;i<n;i++)
     {
-        scanf("%s %s %d",Employee[i].id,Employee[i].name,&Employee[i].salary);
+        scanf("%s %s %d",emp[i].id,emp[i].name,&emp[i].salary);
     }
-    float maxValue = Employee[0].salary;
-    for(int i=1;i<n;i++)
+    for(int i=0;i<n-1;i++)
     {
-        maxValue = (maxValue > Employee[i].salary) ? maxValue : Employee[i].salary;
-        printf("Employee id, name and salary decrease:%s %s %.2f\n",Employee[i].id,Employee[i].name,maxValue);
+        for(int j=0;j<n-i-1;j++)
+        {
+            if(emp[j].salary < emp[j+1].salary)
+            {
+                temp = emp[j];
+                emp[j] = emp[j+1];
+                emp[j+1] = temp;
+            }   
+        }
     }
 
+    printf("The employee is sorted \n");
+    for(int i=0;i<n;i++)
+    {
+        printf("%s %d\n",emp[i].name,emp[i].salary);
+    }
     return 0;
 }
