@@ -14,7 +14,7 @@ int checkString(char *a, char *b)
     {
         if(*a != *b)
         {
-            return 1;
+            return 1;   
         }
         *a++;
         *b++;
