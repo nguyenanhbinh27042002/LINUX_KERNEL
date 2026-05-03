@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#pragma pack(1)
-typedef struct 
+
+typedef struct __attribute__((packed))
 {
     char a;
     int b;
