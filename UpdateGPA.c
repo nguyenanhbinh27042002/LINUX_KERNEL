@@ -1,14 +1,19 @@
 #include <stdio.h>
 
-
-typedef struct Student
+typedef struct
 {
     char id[20];
     char name[20];
     float gpa;
 }Student;
 
-int compare(char *a,char *b)
+
+void updateGPA(Student *s, float newGPA)
+{
+    s->gpa = newGPA;
+}
+
+int compare(char *a, char *b)
 {
     while(*a && *b)
     {
@@ -19,38 +24,38 @@ int compare(char *a,char *b)
         *a++;
         *b++;
     }
-    return (*a == '\0' && *b == '\0');
-}
-void updateGPA(Student *s, float newGPA)
-{
-    s->gpa = newGPA;
+    return ( *a == '\0' && *b == '\0') ? 1 : 0;
 }
 int main(void)
 {
-    Student student[100];
     int n;
+    char targetID[100];
+    float newGPA;
     printf("Enter the number student\n");
     scanf("%d",&n);
-    printf("Enter number student such as: id, name and gpa\n");
-    for( int i=0;i<n;i++)
-    {
-        scanf("%s %s %f",student[i].id, student[i].name,&student[i].gpa);
-    }
-    float newGPA;
-    char targetID[100];
-    printf("Enter the new GPA\n");
-    scanf("%f",&newGPA);
-    printf("GPA after update\n");
+    Student student[100];
+    printf("Enter the information student : id , name and gpa\n");
     for(int i=0;i<n;i++)
     {
-        if(compare(student[i].id, targetID) == 0)
+        scanf("%s %s %f",student[i].id,student[i].name,&student[i].gpa);
+    }
+    
+    printf("Enter the target ID\n");
+    scanf("%s",targetID);
+
+    printf("Enter the new GPA\n");
+    scanf("%f",&newGPA);
+    for(int i=0;i<n;i++)
+    {
+        if(compare(student[i].id, targetID))
         {
             updateGPA(&student[i],newGPA);
         }
     }
+    printf("The new GPA after update\n");
     for(int i=0;i<n;i++)
     {
-        printf("%s %s %f\n",student[i].id,student[i].name,student[i].gpa);
+        printf("%s %s %.2f\n",student[i].id,student[i].name,student[i].gpa);
     }
     return 0;
 }
