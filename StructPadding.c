@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-
-typedef struct
+#pragma pack(1)
+typedef struct 
 {
     char a;
     int b;
